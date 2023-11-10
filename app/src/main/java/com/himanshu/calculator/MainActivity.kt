@@ -36,7 +36,7 @@ class MainActivity : ComponentActivity() {
 
                 ) {
                     Spacer(modifier = Modifier.height(height = 100.dp))
-                    Text(text = "", color = Color.White, fontSize = 36.sp)
+                    Text(text = state.number1 + (state.operation?.symbol ?: "") + state.number2, color = Color.White, fontSize = 36.sp)
                     Row(modifier = Modifier.fillMaxWidth(),
 
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -52,11 +52,12 @@ class MainActivity : ComponentActivity() {
                         CalculatorButton(symbol = "Del",
                             modifier = Modifier.weight(1f),
                             onClick = {
+                                viewModel.value.onAction(calculatorActions = CalculatorActions.Clear)
                             })
                         CalculatorButton(symbol = "%",
                             modifier = Modifier.weight(1f).background(orange),
                             onClick = {
-                                viewModel.value.onAction(calculatorActions = CalculatorActions.Clear)
+                                viewModel.value.onAction(calculatorActions = CalculatorActions.Operations(CalculatorOperations.Division))
                             })
 
                     }
