@@ -3,33 +3,30 @@ package com.himanshu.calculator
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.himanshu.calculator.components.CalculatorButton
+
 import com.himanshu.calculator.ui.theme.CalculatorTheme
 import com.himanshu.calculator.ui.theme.orange
+import com.himanshu.calculator.viewmodel.CalculatorViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             CalculatorTheme {
-                var equationText by remember {
-                    mutableStateOf("")
-                }
+                val viewModel = viewModels<CalculatorViewModel>()
+                val state = viewModel.value.state
                 Column(modifier =
                 Modifier
                     .background(color = Color.Black)
@@ -39,7 +36,7 @@ class MainActivity : ComponentActivity() {
 
                 ) {
                     Spacer(modifier = Modifier.height(height = 100.dp))
-                    Text(text = equationText, color = Color.White, fontSize = 36.sp)
+                    Text(text = "", color = Color.White, fontSize = 36.sp)
                     Row(modifier = Modifier.fillMaxWidth(),
 
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -49,18 +46,17 @@ class MainActivity : ComponentActivity() {
                             modifier =
                             Modifier.weight(2f),
                             onClick = {
-                                equationText = ""
+                                    viewModel.value.onAction(calculatorActions = CalculatorActions.AllClear)
                             }
                         )
                         CalculatorButton(symbol = "Del",
                             modifier = Modifier.weight(1f),
                             onClick = {
-                                equationText = ""
                             })
                         CalculatorButton(symbol = "%",
                             modifier = Modifier.weight(1f).background(orange),
                             onClick = {
-                                equationText += "%"
+                                viewModel.value.onAction(calculatorActions = CalculatorActions.Clear)
                             })
 
                     }
@@ -73,23 +69,23 @@ class MainActivity : ComponentActivity() {
                             modifier =
                             Modifier.weight(1f),
                             onClick = {
-                                equationText += "7"
+                                viewModel.value.onAction(calculatorActions = CalculatorActions.Number(7))
                             })
                         CalculatorButton(symbol = "8",
                             modifier =
                             Modifier.weight(1f),
                             onClick = {
-                                equationText += "8"
+                                viewModel.value.onAction(calculatorActions = CalculatorActions.Number(8))
                             })
                         CalculatorButton(symbol = "9",
                             modifier = Modifier.weight(1f),
                             onClick = {
-                                equationText += "9"
+                                viewModel.value.onAction(calculatorActions = CalculatorActions.Number(9))
                             })
                         CalculatorButton(symbol = "X",
                             modifier = Modifier.weight(1f).background(orange),
                             onClick = {
-                                equationText += "X"
+                                viewModel.value.onAction(calculatorActions = CalculatorActions.Operations(CalculatorOperations.Multiply))
                             })
 
                     }
@@ -102,23 +98,24 @@ class MainActivity : ComponentActivity() {
                             modifier =
                             Modifier.weight(1f),
                             onClick = {
-                                equationText += "4"
+                                viewModel.value.onAction(calculatorActions = CalculatorActions.Number(4))
                             })
                         CalculatorButton(symbol = "5",
                             modifier =
                             Modifier.weight(1f),
                             onClick = {
-                                equationText += "5"
+                                viewModel.value.onAction(calculatorActions = CalculatorActions.Number(5))
                             })
                         CalculatorButton(symbol = "6",
                             modifier = Modifier.weight(1f),
                             onClick = {
-                                equationText += "6"
+                                viewModel.value.onAction(calculatorActions = CalculatorActions.Number(6))
                             })
                         CalculatorButton(symbol = "-",
                             modifier = Modifier.weight(1f).background(orange),
                             onClick = {
-                                equationText += "-"
+                                viewModel.value.onAction(calculatorActions = CalculatorActions.Operations(CalculatorOperations.Sub))
+
                             })
 
                     }
@@ -131,23 +128,24 @@ class MainActivity : ComponentActivity() {
                             modifier =
                             Modifier.weight(1f),
                             onClick = {
-                                equationText += "1"
+                                viewModel.value.onAction(calculatorActions = CalculatorActions.Number(1))
                             })
                         CalculatorButton(symbol = "2",
                             modifier =
                             Modifier.weight(1f),
                             onClick = {
-                                equationText += "2"
+                                viewModel.value.onAction(calculatorActions = CalculatorActions.Number(2))
                             })
                         CalculatorButton(symbol = "3",
                             modifier = Modifier.weight(1f),
                             onClick = {
-                                equationText += "3"
+                                viewModel.value.onAction(calculatorActions = CalculatorActions.Number(3))
                             })
                         CalculatorButton(symbol = "+",
                             modifier = Modifier.weight(1f).background(orange),
                             onClick = {
-                                equationText += "+"
+                                viewModel.value.onAction(calculatorActions = CalculatorActions.Operations(CalculatorOperations.Add))
+
                             })
 
                     }
@@ -160,21 +158,22 @@ class MainActivity : ComponentActivity() {
                             modifier =
                             Modifier.weight(2f),
                             onClick = {
-                                equationText += "0"
+                                viewModel.value.onAction(calculatorActions = CalculatorActions.Number(0))
                             })
                         CalculatorButton(symbol = ".",
                             modifier = Modifier.weight(1f),
                             onClick = {
-                                equationText += "."
+                                viewModel.value.onAction(calculatorActions = CalculatorActions.Decimal)
+
                             })
                         CalculatorButton(symbol = "=",
                             modifier = Modifier.weight(1f).background(orange),
                             onClick = {
+                                viewModel.value.onAction(calculatorActions = CalculatorActions.Calculate)
                             })
 
                     }
                 }
-
 
             }
         }
