@@ -37,6 +37,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     Spacer(modifier = Modifier.height(height = 100.dp))
                     Text(text = state.number1 + (state.operation?.symbol ?: "") + state.number2, color = Color.White, fontSize = 36.sp)
+
                     Row(modifier = Modifier.fillMaxWidth(),
 
                         horizontalArrangement = Arrangement.spacedBy(8.dp)

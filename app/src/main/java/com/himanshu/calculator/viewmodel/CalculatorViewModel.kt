@@ -27,6 +27,11 @@ class CalculatorViewModel:ViewModel() {
     }
 
     private fun addSymbol(operations: CalculatorOperations) {
+        if (state.number2.isNotBlank())
+        {
+            calculateResult()
+        }
+
         if (state.number1.isNotBlank())
         {
             state = state.copy(operation = operations)
@@ -35,8 +40,52 @@ class CalculatorViewModel:ViewModel() {
 
 
     private fun calculateResult() {
-        TODO("Not yet implemented")
+        when (state.operation)
+        {
+            is CalculatorOperations.Add -> addResult()
+            is CalculatorOperations.Sub -> subResult()
+            is CalculatorOperations.Division -> divideResult()
+            is CalculatorOperations.Multiply -> multiplyResult()
+            else -> {}
+        }
     }
+
+    private fun multiplyResult() {
+        state = state.copy(
+            number1 =  (state.number1.toInt() * state.number2.toInt()).toString(),
+            operation = null,
+            number2 = ""
+
+        )
+    }
+
+    private fun divideResult() {
+        state = state.copy(
+            number1 =  (state.number1.toInt() / state.number2.toInt()).toString(),
+            operation = null,
+            number2 = ""
+
+        )
+    }
+
+    private fun subResult() {
+        state = state.copy(
+            number1 =  (state.number1.toInt() - state.number2.toInt()).toString(),
+            operation = null,
+            number2 = ""
+
+        )
+    }
+
+    private fun addResult() {
+       state = state.copy(
+           number1 =  (state.number1.toInt() + state.number2.toInt()).toString(),
+           operation = null,
+           number2 = ""
+
+       )
+    }
+
 
     private fun removeLast() {
         when {
